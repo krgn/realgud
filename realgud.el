@@ -85,6 +85,7 @@
      "./realgud/common/utils"
      "./realgud/debugger/bashdb/bashdb"
      "./realgud/debugger/gdb/gdb"
+     "./realgud/debugger/sdb/sdb"
      "./realgud/debugger/gub/gub"
      "./realgud/debugger/ipdb/ipdb"
      "./realgud/debugger/jdb/jdb"

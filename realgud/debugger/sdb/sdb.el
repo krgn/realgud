@@ -129,7 +129,7 @@ fringe and marginal icons.
         (let ((process (get-buffer-process cmd-buf)))
           (if (and process (eq 'run (process-status process)))
               (with-current-buffer cmd-buf
-                (realgud-command "set annotate 1" nil nil nil)
+                (realgud-command "cfg s InputPrompt (sdb)" nil nil nil)
                 )))
       )
     ))
