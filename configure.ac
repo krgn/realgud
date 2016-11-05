@@ -75,6 +75,7 @@ AC_CONFIG_FILES([Makefile \
 		 realgud/debugger/pdb/Makefile \
 		 realgud/debugger/rdebug/Makefile \
 		 realgud/debugger/remake/Makefile \
+		 realgud/debugger/sdb/Makefile \
 		 realgud/debugger/trepan/Makefile \
 		 realgud/debugger/trepan2/Makefile \
 		 realgud/debugger/trepan3k/Makefile \
