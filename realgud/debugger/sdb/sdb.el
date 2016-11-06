@@ -68,8 +68,7 @@ name."
 
 (defun realgud:sdb-pid-command-buffer (pid)
   "Return the command buffer used when sdb -p PID is invoked"
-  (format "*sdb %d shell*" pid)
-  )
+  (format "*sdb %d shell*" pid))
 
 (defun realgud:sdb-find-command-buffer (pid)
   "Find the among current buffers a buffer that is a realgud command buffer
@@ -80,27 +79,6 @@ running sdb on process number PID"
                 (realgud-cmdbuf? buf)
                 (get-buffer-process buf))
         (return buf)))))
-
-(defun realgud:sdb-pid (pid)
-  "Start debugging sdb process with pid PID."
-  (interactive "nEnter the pid that sdb should attach to: ")
-  (realgud:sdb (format "%s -p %d" realgud:sdb-command-name pid))
-  ;; FIXME: should add code to test if attach worked.
-  )
-
-(defun realgud:sdb-pid-associate (pid)
-  "Start debugging sdb process with pid PID and associate the
-current buffer to that realgud command buffer."
-  (interactive "nEnter the pid that sdb should attach to and associate the current buffer to: ")
-  (let* ((command-buf)
-         (source-buf (current-buffer))
-         )
-    (realgud:sdb-pid pid)
-    (setq command-buf (realgud:sdb-find-command-buffer pid))
-    (if command-buf
-        (with-current-buffer source-buf
-          (realgud:cmdbuf-associate))
-      )))
 
 ;;;###autoload
 (defun realgud:sdb (&optional opt-cmd-line no-reset)
