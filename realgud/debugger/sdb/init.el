@@ -15,7 +15,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;;; gdb debugger
+;;; sdb debugger
 
 (eval-when-compile (require 'cl-lib))
 
@@ -52,16 +52,16 @@ realgud-loc-pat struct")
 ;;   (sdb)
 (setf (gethash "prompt" realgud:sdb-pat-hash)
       (make-realgud-loc-pat
-       :regexp   "^(sdb) "
-       ))
+       :regexp   "^(sdb) "))
 
 ;; Regular expression that describes a "breakpoint set" line
 ;; For example:
-;;   Breakpoint 1, main (argc=1, argv=0x7fffffffdbd8) at main.c:24
+;;   Breakpoint '0' added at '/home/k/tmp/gud/Main.fs:8'
 (setf (gethash "brkpt-set" realgud:sdb-pat-hash)
       (make-realgud-loc-pat
-       :regexp (format "^Breakpoint %s at 0x\\([0-9a-f]*\\): file \\(.+\\), line %s.\n"
-                       realgud:regexp-captured-num realgud:regexp-captured-num)
+       :regexp (format "^Breakpoint '%s' added at '\\(.+\\):%s'"
+                       realgud:regexp-captured-num
+                       realgud:regexp-captured-num)
        :num 1
        :file-group 3
        :line-group 4))
@@ -73,7 +73,7 @@ realgud-loc-pat struct")
 ;;   Deleted breakpoints 1 2 3 4
 (setf (gethash "brkpt-del" realgud:sdb-pat-hash)
       (make-realgud-loc-pat
-       :regexp "^Deleted breakpoints? \\(\\([0-9]+ *\\)+\\)\n"
+       :regexp "^Breakpoint '\\([0-9]+\\)' deleted\n"
        :num 1))
 
 (defconst realgud:sdb-frame-start-regexp
