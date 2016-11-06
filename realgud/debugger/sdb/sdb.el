@@ -41,11 +41,17 @@
 ;; User definable variables
 ;;
 
+(defcustom realgud:sdb-options
+  '()
+  "Options to configure the sdb process."
+  :type '(alist :value-type (group string))
+  :group 'realgud:sdb)
+
 (defcustom realgud:sdb-command-name
-  ;;"sdb --emacs 3"
   "sdb"
   "File name for executing the and command options.
-This should be an executable on your path, or an absolute file name."
+This should be an executable on your path, or an absolute file
+name."
   :type 'string
   :group 'realgud:sdb)
 
@@ -111,7 +117,6 @@ buffers and source buffers which may contain marks and fringe or
 marginal icons is reset. See `loc-changes-clear-buffer' to clear
 fringe and marginal icons.
 "
-
   (interactive)
   (let* ((cmd-str (or opt-cmd-line (realgud:sdb-query-cmdline "sdb")))
          (cmd-args (split-string-and-unquote cmd-str))
@@ -123,16 +128,17 @@ fringe and marginal icons.
          (cmd-buf (realgud:run-process realgud:sdb-command-name
                                        script-name parsed-cmd-args
                                        'realgud:sdb-minibuffer-history
-                                       nil))
-         )
+                                       nil)))
     (if cmd-buf
         (let ((process (get-buffer-process cmd-buf)))
           (if (and process (eq 'run (process-status process)))
               (with-current-buffer cmd-buf
-                (realgud-command "cfg s InputPrompt (sdb)" nil nil nil)
-                )))
-      )
-    ))
+                (add-to-list 'realgud:sdb-options '("InputPrompt" . "(sdb)"))
+                (mapc (lambda (cell)
+                        (let ((cmd (concat "cfg s " (car cell) " " (cdr cell))))
+                          (message cmd)
+                          (realgud-command cmd nil nil nil)))
+                      realgud:sdb-options)))))))
 
 (provide-me "realgud-")
 
